@@ -1,3 +1,6 @@
+import { ModeToggle } from "@/components/mode-toggle"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import type { LucideIcon } from "lucide-react"
 import {
   Bell,
   Bookmark,
@@ -10,8 +13,6 @@ import {
   Share,
   User,
 } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 type Post = {
   id: string
@@ -62,7 +63,8 @@ const MOCK_POSTS: Post[] = [
     handle: "hwlog",
     avatar: "https://i.pravatar.cc/150?img=33",
     time: "1d",
-    content: "Shadcn Nova preset 색감이 생각보다 X 분위기랑 잘 맞는다. 다크 모드 기본 + zinc 계열 구분선.",
+    content:
+      "Shadcn Nova preset 색감이 생각보다 X 분위기랑 잘 맞는다. 다크 모드 기본 + zinc 계열 구분선.",
     replies: 2,
     reposts: 0,
     likes: 17,
@@ -112,7 +114,7 @@ function NavItem({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
     <button
       type="button"
-      className="flex w-full items-center gap-4 rounded-full px-4 py-3 text-xl transition-colors hover:bg-zinc-900"
+      className="flex w-full items-center gap-4 rounded-full px-4 py-3 text-xl transition-colors hover:bg-accent"
     >
       <Icon className="h-6 w-6" strokeWidth={2} />
       <span>{label}</span>
@@ -134,42 +136,47 @@ function LeftSidebar() {
         </nav>
         <button
           type="button"
-          className="mt-2 w-full rounded-full bg-white px-4 py-3 text-base font-bold text-black transition-colors hover:bg-zinc-200"
+          className="mt-2 w-full rounded-full bg-primary px-4 py-3 text-base font-bold text-primary-foreground transition-colors hover:bg-primary/90"
         >
           Post
         </button>
       </div>
-      <button
-        type="button"
-        className="flex items-center gap-3 rounded-full p-3 transition-colors hover:bg-zinc-900"
-      >
-        <Avatar className="h-10 w-10">
-          <AvatarImage src="https://i.pravatar.cc/150?img=12" alt="me" />
-          <AvatarFallback>SE</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col items-start text-sm leading-tight">
-          <span className="font-bold">Sean</span>
-          <span className="text-zinc-500">@sean_dev</span>
+      <div className="flex flex-col gap-2">
+        <div className="px-3">
+          <ModeToggle />
         </div>
-      </button>
+        <button
+          type="button"
+          className="flex items-center gap-3 rounded-full p-3 transition-colors hover:bg-accent"
+        >
+          <Avatar className="h-10 w-10">
+            <AvatarImage src="https://i.pravatar.cc/150?img=12" alt="me" />
+            <AvatarFallback>SE</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col items-start text-sm leading-tight">
+            <span className="font-bold">Sean</span>
+            <span className="text-muted-foreground">@sean_dev</span>
+          </div>
+        </button>
+      </div>
     </aside>
   )
 }
 
 function Composer() {
   return (
-    <div className="flex gap-3 border-b border-zinc-800 px-4 py-3">
+    <div className="flex gap-3 border-b border-border px-4 py-3">
       <Avatar className="h-10 w-10 shrink-0">
         <AvatarImage src="https://i.pravatar.cc/150?img=12" alt="me" />
         <AvatarFallback>SE</AvatarFallback>
       </Avatar>
       <div className="flex flex-1 flex-col gap-3">
-        <div className="min-h-[48px] py-2 text-xl text-zinc-500">What is happening?!</div>
-        <div className="flex items-center justify-between border-t border-zinc-800 pt-3">
-          <span className="text-sm text-zinc-500">0 / 280</span>
+        <div className="min-h-[48px] py-2 text-xl text-muted-foreground">What is happening?!</div>
+        <div className="flex items-center justify-between border-t border-border pt-3">
+          <span className="text-sm text-muted-foreground">0 / 280</span>
           <button
             type="button"
-            className="rounded-full bg-white px-4 py-1.5 text-sm font-bold text-black transition-colors hover:bg-zinc-200"
+            className="rounded-full bg-primary px-4 py-1.5 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Post
           </button>
@@ -181,7 +188,7 @@ function Composer() {
 
 function PostCard({ post }: { post: Post }) {
   return (
-    <article className="flex gap-3 border-b border-zinc-800 px-4 py-3 transition-colors hover:bg-zinc-950">
+    <article className="flex gap-3 border-b border-border px-4 py-3 transition-colors hover:bg-muted/50">
       <Avatar className="h-10 w-10 shrink-0">
         <AvatarImage src={post.avatar} alt={post.name} />
         <AvatarFallback>{post.name.slice(0, 2).toUpperCase()}</AvatarFallback>
@@ -189,12 +196,12 @@ function PostCard({ post }: { post: Post }) {
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center gap-1 text-sm">
           <span className="font-bold hover:underline">{post.name}</span>
-          <span className="text-zinc-500">@{post.handle}</span>
-          <span className="text-zinc-500">·</span>
-          <span className="text-zinc-500 hover:underline">{post.time}</span>
+          <span className="text-muted-foreground">@{post.handle}</span>
+          <span className="text-muted-foreground">·</span>
+          <span className="text-muted-foreground hover:underline">{post.time}</span>
         </div>
-        <p className="whitespace-pre-wrap text-[15px] leading-snug">{post.content}</p>
-        <div className="mt-2 flex max-w-md justify-between text-sm text-zinc-500">
+        <p className="text-[15px] leading-snug whitespace-pre-wrap">{post.content}</p>
+        <div className="mt-2 flex max-w-md justify-between text-sm text-muted-foreground">
           <button
             type="button"
             className="group flex items-center gap-2 transition-colors hover:text-blue-400"
@@ -240,29 +247,29 @@ function RightSidebar() {
   return (
     <aside className="sticky top-0 hidden h-screen w-[350px] shrink-0 px-6 py-3 lg:block">
       <div className="relative mb-4">
-        <Search className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+        <Search className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
           placeholder="Search"
-          className="w-full rounded-full border border-transparent bg-zinc-900 py-2.5 pr-4 pl-11 text-sm placeholder:text-zinc-500 focus:border-blue-500 focus:bg-black focus:outline-none"
+          className="w-full rounded-full border border-transparent bg-muted py-2.5 pr-4 pl-11 text-sm placeholder:text-muted-foreground focus:border-blue-500 focus:bg-background focus:outline-none"
         />
       </div>
-      <div className="rounded-2xl bg-zinc-900">
+      <div className="rounded-2xl bg-muted">
         <h2 className="px-4 py-3 text-xl font-bold">Trends for you</h2>
         {MOCK_TRENDS.map((trend) => (
           <button
             key={trend.title}
             type="button"
-            className="flex w-full flex-col items-start gap-0.5 px-4 py-3 text-left transition-colors hover:bg-zinc-800"
+            className="flex w-full flex-col items-start gap-0.5 px-4 py-3 text-left transition-colors hover:bg-accent/80"
           >
-            <span className="text-xs text-zinc-500">{trend.category}</span>
+            <span className="text-xs text-muted-foreground">{trend.category}</span>
             <span className="font-bold">{trend.title}</span>
-            <span className="text-xs text-zinc-500">{trend.posts}</span>
+            <span className="text-xs text-muted-foreground">{trend.posts}</span>
           </button>
         ))}
         <button
           type="button"
-          className="w-full rounded-b-2xl px-4 py-3 text-left text-sm text-blue-400 transition-colors hover:bg-zinc-800"
+          className="w-full rounded-b-2xl px-4 py-3 text-left text-sm text-blue-400 transition-colors hover:bg-accent/80"
         >
           Show more
         </button>
@@ -273,11 +280,11 @@ function RightSidebar() {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex max-w-[1280px] justify-center">
         <LeftSidebar />
-        <main className="w-full max-w-[600px] border-x border-zinc-800">
-          <header className="sticky top-0 z-10 border-b border-zinc-800 bg-black/70 px-4 py-3 backdrop-blur-md">
+        <main className="w-full max-w-[600px] border-x border-border">
+          <header className="sticky top-0 z-10 border-b border-border bg-background/70 px-4 py-3 backdrop-blur-md">
             <h1 className="text-xl font-bold">Home</h1>
           </header>
           <Composer />
