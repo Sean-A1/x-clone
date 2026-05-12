@@ -1,0 +1,57 @@
+{
+  // 기본 포매터 — Prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  // 언어별 포매터 (Python 설정에서 Ruff 지정한 것과 동일 패턴)
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Markdown 포매터
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+
+  // GitLens: 현재 라인과 코드 렌즈 비활성화 (본인 기존 설정 유지)
+  "gitlens.currentLine.enabled": false,
+  "gitlens.codeLens.enabled": false,
+
+  // 저장 시 ESLint 자동 fix + import 정리 (Python의 source.fixAll.ruff와 동일 컨셉)
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  // Tailwind 클래스 정렬은 Prettier 플러그인이 처리 (별도 설정 불필요, 플러그인만 깔면 됨)
+
+  // TypeScript: 프로젝트의 TS 버전 쓰기 (VSCode 내장 TS 대신)
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+
+  // 자동 import 경로는 절대 경로 alias 선호 ('@/components/...')
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+
+  // todo-tree (본인 기존 설정 유지)
+  "todo-tree.general.tags": ["TODO", "FIXME", "HACK", "NOTE"],
+
+  // git 폴더 보이게 (본인 기존 설정 유지)
+  "files.exclude": {
+    "**/.git": false
+  }
+}
