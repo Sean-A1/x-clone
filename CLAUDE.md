@@ -2,8 +2,6 @@
 
 # x-clone
 
-@AGENTS.md
-
 ## Project context
 X (Twitter) 클론. Solo learning project.
 풀스택 + DevOps 학습이 목표. 현업 가까운 방식이 우선이고, 빠른 결과보다 학습 가치를 우선함.
@@ -27,12 +25,33 @@ X (Twitter) 클론. Solo learning project.
 - Tailwind 클래스 auto-sort (prettier-plugin-tailwindcss)
 - ESLint auto-fix on save
 - Save 시 `source.organizeImports` 실행
+  
+## Server vs Client Components
+- App Router 기본은 Server Component
+- `"use client"` 디렉티브가 필요한 경우:
+  - React 훅 사용 (useState, useEffect, useTheme 등)
+  - 이벤트 핸들러 (onClick, onChange)
+  - 브라우저 API (localStorage, window)
+  - React Context 생성
+- Secret/환경변수는 절대 Client Component에 두지 않음 (브라우저에 노출됨)
 
 ## Current state — Phase 1 (MVP, in progress)
-- Post CRUD
-- Follow / Unfollow
-- Home timeline (pull model)
-- Like / Repost
+### Done
+- Home timeline mock UI (LeftSidebar / Composer / PostCard / RightSidebar)
+- Dark / Light / System theme toggle
+- Semantic token migration
+
+### Next
+- Profile page (static, F2)
+- Supabase setup + Auth (F1)
+- Post CRUD with real data
+- Follow, Like, Repost actions
+
+### Held decisions (re-suggest 금지)
+- Timeline은 **pull model** 먼저. push로의 마이그레이션은 의도된 학습 경험.
+- DB는 **Supabase** 결정됨. 단, Phase 1 초반은 in-component mock 데이터로 시작.
+- Auth는 **Supabase Auth** (DB 통합 시점에 도입).
+- ORM은 **Drizzle**.
 
 ### Held decisions (re-suggest 금지)
 - Timeline은 **pull model** 먼저. push로의 마이그레이션은 의도된 학습 경험.
@@ -57,9 +76,10 @@ Feature-based modules:
 - **DevOps 고급** (Oracle Cloud / AWS 일부 마이그레이션): Phase 3
 
 ## Future tooling notes
-- **Claude Design**: Phase 1 MVP 완료 후 검토. 특히 프로필 페이지 같은 디자인 탐색 작업부터. Phase 1 중에는 도입 X — 현재 학습 목표가 hands-on Tailwind/React 익히기.
-- 호스팅 전략: 현재 Vercel + Supabase (Phase 1). Phase 3에서 일부 워크로드를 Oracle Cloud / AWS로 이전해 DevOps 경험 추가.
+- **Claude Design**: Phase 1 MVP 완료 후 검토. 특히 프로필 페이지 같은 디자인 탐색 작업부터.
+- 호스팅 전략: 현재 Vercel + Supabase (Phase 1). Phase 3에서 일부 워크로드를 Oracle Cloud / AWS로 이전.
 
 ## Known gotchas
 - Tailwind v4 IntelliSense는 `app/globals.css`의 `@import "tailwindcss"` 로 활성화 (v3의 `tailwind.config.js` 방식 아님)
-- Squash merge 후 로컬 브랜치는 항상 `git branch -D` (소문자 `-d`는 거부됨, SHA 불일치 때문)
+- Squash merge 후 로컬 브랜치는 항상 `git branch -D` (소문자 `-d`는 SHA 불일치로 거부됨)
+- Tailwind v4 권고: `w-[275px]` 같은 arbitrary value는 `w-68.75` 같은 canonical class로도 가능. 둘 다 동일 동작.
