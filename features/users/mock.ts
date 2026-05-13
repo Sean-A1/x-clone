@@ -1,0 +1,48 @@
+import type { User } from "@/features/users/types"
+
+export const MOCK_USERS: Record<string, User> = {
+  sean_dev: {
+    username: "sean_dev",
+    displayName: "Sean",
+    avatar: "https://i.pravatar.cc/150?img=12",
+    bio: "풀스택 + DevOps 학습 중. X 클론 만들면서 현업스러운 길로 우회하는 게 취미.\n잡담은 환영, 코드 리뷰는 더 환영.",
+    location: "Seoul, South Korea",
+    joinedAt: "Joined March 2024",
+    following: 184,
+    followers: 312,
+    postsCount: 342,
+  },
+  minacodes: {
+    username: "minacodes",
+    displayName: "Mina Park",
+    avatar: "https://i.pravatar.cc/150?img=47",
+    bio: "Backend engineer. 분산 시스템, 데이터베이스 내부, 그리고 가끔은 카페인.",
+    location: "Busan, South Korea",
+    joinedAt: "Joined September 2022",
+    following: 421,
+    followers: 1843,
+    postsCount: 89,
+  },
+  hwlog: {
+    username: "hwlog",
+    displayName: "Hyunwoo",
+    avatar: "https://i.pravatar.cc/150?img=33",
+    bio: "Frontend developer. UI 디테일에 진심. React / Tailwind / 빨간 줄 안 보이게 만드는 사람.",
+    location: "Pangyo",
+    joinedAt: "Joined January 2023",
+    following: 267,
+    followers: 894,
+    postsCount: 215,
+  },
+  jules: {
+    username: "jules",
+    displayName: "Jules",
+    avatar: "https://i.pravatar.cc/150?img=5",
+    bio: "Product designer. 글보다 인터페이스로 말하는 편.",
+    location: "Berlin",
+    joinedAt: "Joined July 2024",
+    following: 52,
+    followers: 138,
+    postsCount: 17,
+  },
+}
