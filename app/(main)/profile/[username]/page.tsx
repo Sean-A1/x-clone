@@ -2,10 +2,10 @@ import { ArrowLeft } from "lucide-react"
 import { notFound } from "next/navigation"
 
 import { PostCard } from "@/features/posts/components/post-card"
-import { MOCK_POSTS } from "@/features/posts/mock"
+import { getPostsByUsername } from "@/features/posts/queries"
 import { ProfileHeader } from "@/features/users/components/profile-header"
 import { ProfileTabs } from "@/features/users/components/profile-tabs"
-import { MOCK_USERS } from "@/features/users/mock"
+import { getUser } from "@/features/users/queries"
 
 export default async function ProfilePage({
   params,
@@ -13,13 +13,13 @@ export default async function ProfilePage({
   params: Promise<{ username: string }>
 }) {
   const { username } = await params
-  const user = MOCK_USERS[username]
+  const user = await getUser(username)
 
   if (!user) {
     notFound()
   }
 
-  const posts = MOCK_POSTS.filter((post) => post.handle === username)
+  const posts = await getPostsByUsername(username)
 
   return (
     <>
@@ -41,8 +41,8 @@ export default async function ProfilePage({
       <ProfileHeader user={user} />
       <ProfileTabs />
       <div>
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+        {posts.map(({ post, author }) => (
+          <PostCard key={post.id} post={post} author={author} />
         ))}
       </div>
     </>

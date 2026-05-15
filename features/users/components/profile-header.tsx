@@ -1,15 +1,16 @@
+import { format } from "date-fns"
 import { Calendar, MapPin } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import type { User } from "@/features/users/types"
+import type { User } from "@/features/users/schema"
 
 export function ProfileHeader({ user }: { user: User }) {
   return (
     <section className="border-b border-border px-4 pt-4 pb-4">
       <div className="flex items-start justify-between">
         <Avatar className="h-32 w-32 border-4 border-background">
-          <AvatarImage src={user.avatar} alt={user.displayName} />
+          <AvatarImage src={user.avatar ?? undefined} alt={user.displayName} />
           <AvatarFallback>{user.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
         </Avatar>
         <Button variant="outline" className="mt-2 rounded-full font-bold">
@@ -29,16 +30,20 @@ export function ProfileHeader({ user }: { user: User }) {
           </span>
           <span className="flex items-center gap-1">
             <Calendar className="h-4 w-4" />
-            {user.joinedAt}
+            {format(user.joinedAt, "'Joined' MMMM yyyy")}
           </span>
         </div>
         <div className="flex gap-4 text-sm">
           <span>
-            <span className="font-bold text-foreground">{user.following.toLocaleString()}</span>{" "}
+            <span className="font-bold text-foreground">
+              {user.followingCount.toLocaleString()}
+            </span>{" "}
             <span className="text-muted-foreground">Following</span>
           </span>
           <span>
-            <span className="font-bold text-foreground">{user.followers.toLocaleString()}</span>{" "}
+            <span className="font-bold text-foreground">
+              {user.followersCount.toLocaleString()}
+            </span>{" "}
             <span className="text-muted-foreground">Followers</span>
           </span>
         </div>

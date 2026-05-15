@@ -1,21 +1,25 @@
+import { formatDistanceToNow } from "date-fns"
 import { Heart, MessageCircle, Repeat2, Share } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import type { Post } from "@/features/posts/types"
+import type { Post } from "@/features/posts/schema"
+import type { User } from "@/features/users/schema"
 
-export function PostCard({ post }: { post: Post }) {
+export function PostCard({ post, author }: { post: Post; author: User }) {
   return (
     <article className="hover:bg-muted/50 border-border flex gap-3 border-b px-4 py-3 transition-colors">
       <Avatar className="h-10 w-10 shrink-0">
-        <AvatarImage src={post.avatar} alt={post.name} />
-        <AvatarFallback>{post.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+        <AvatarImage src={author.avatar ?? undefined} alt={author.displayName} />
+        <AvatarFallback>{author.displayName.slice(0, 2).toUpperCase()}</AvatarFallback>
       </Avatar>
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center gap-1 text-sm">
-          <span className="font-bold hover:underline">{post.name}</span>
-          <span className="text-muted-foreground">@{post.handle}</span>
+          <span className="font-bold hover:underline">{author.displayName}</span>
+          <span className="text-muted-foreground">@{author.username}</span>
           <span className="text-muted-foreground">·</span>
-          <span className="text-muted-foreground hover:underline">{post.time}</span>
+          <span className="text-muted-foreground hover:underline">
+            {formatDistanceToNow(post.createdAt, { addSuffix: true })}
+          </span>
         </div>
         <p className="text-[15px] leading-snug whitespace-pre-wrap">{post.content}</p>
         <div className="text-muted-foreground mt-2 flex max-w-md justify-between text-sm">
