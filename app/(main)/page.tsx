@@ -1,8 +1,10 @@
 import { Composer } from "@/features/posts/components/composer"
 import { PostCard } from "@/features/posts/components/post-card"
-import { MOCK_POSTS } from "@/features/posts/mock"
+import { getPosts } from "@/features/posts/queries"
 
-export default function Home() {
+export default async function Home() {
+  const posts = await getPosts()
+
   return (
     <>
       <header className="sticky top-0 z-10 border-b border-border bg-background/70 px-4 py-3 backdrop-blur-md">
@@ -10,8 +12,8 @@ export default function Home() {
       </header>
       <Composer />
       <div>
-        {MOCK_POSTS.map((post) => (
-          <PostCard key={post.id} post={post} />
+        {posts.map(({ post, author }) => (
+          <PostCard key={post.id} post={post} author={author} />
         ))}
       </div>
     </>
