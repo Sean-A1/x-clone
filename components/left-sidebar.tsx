@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react"
 import { Bell, Bookmark, Home as HomeIcon, Mail, Search, User } from "lucide-react"
 
 import { ModeToggle } from "@/components/mode-toggle"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { UserMenu } from "@/components/user-menu"
 
 const NAV_ITEMS: { icon: LucideIcon; label: string }[] = [
   { icon: HomeIcon, label: "Home" },
@@ -48,19 +48,7 @@ export function LeftSidebar() {
         <div className="px-3">
           <ModeToggle />
         </div>
-        <button
-          type="button"
-          className="flex items-center gap-3 rounded-full p-3 transition-colors hover:bg-accent"
-        >
-          <Avatar className="h-10 w-10">
-            <AvatarImage src="https://i.pravatar.cc/150?img=12" alt="me" />
-            <AvatarFallback>SE</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col items-start text-sm leading-tight">
-            <span className="font-bold">Sean</span>
-            <span className="text-muted-foreground">@sean_dev</span>
-          </div>
-        </button>
+        <UserMenu />
       </div>
     </aside>
   )
