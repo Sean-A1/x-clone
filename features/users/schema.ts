@@ -1,8 +1,19 @@
 import { sql } from "drizzle-orm"
-import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core"
+import { integer, pgSchema, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core"
+
+// Supabase가 소유·관리하는 `auth` 스키마. `users.id`가 타입이 있는 FK를
+// 걸 수 있도록 `auth.users`의 얇은 stub만 선언한다. drizzle-kit은 이 테이블을
+// 관리하지 않는다(drizzle.config.ts의 schemaFilter=["public"]) — FK 제약만
+// 생성하고 auth.users에 대한 CREATE TABLE은 내보내지 않는다.
+const authSchema = pgSchema("auth")
+const authUsers = authSchema.table("users", {
+  id: uuid("id").primaryKey(),
+})
 
 export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id")
+    .primaryKey()
+    .references(() => authUsers.id, { onDelete: "cascade" }),
   username: text("username").notNull().unique(),
   displayName: text("display_name").notNull(),
   avatar: text("avatar"),
