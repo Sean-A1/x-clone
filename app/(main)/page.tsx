@@ -5,13 +5,13 @@ import { getUserById } from "@/features/users/queries"
 import { createClient } from "@/lib/supabase/server"
 
 export default async function Home() {
-  const posts = await getPosts()
-
   const supabase = await createClient()
   const {
     data: { user: authUser },
   } = await supabase.auth.getUser()
   const user = authUser ? await getUserById(authUser.id) : null
+
+  const posts = await getPosts(authUser?.id ?? null)
 
   return (
     <>
@@ -20,8 +20,8 @@ export default async function Home() {
       </header>
       <Composer user={user} />
       <div>
-        {posts.map(({ post, author }) => (
-          <PostCard key={post.id} post={post} author={author} />
+        {posts.map(({ post, author, likedByMe }) => (
+          <PostCard key={post.id} post={post} author={author} likedByMe={likedByMe} />
         ))}
       </div>
     </>

@@ -6,6 +6,7 @@ import { getPostsByUsername } from "@/features/posts/queries"
 import { ProfileHeader } from "@/features/users/components/profile-header"
 import { ProfileTabs } from "@/features/users/components/profile-tabs"
 import { getUser } from "@/features/users/queries"
+import { createClient } from "@/lib/supabase/server"
 
 export default async function ProfilePage({
   params,
@@ -19,7 +20,11 @@ export default async function ProfilePage({
     notFound()
   }
 
-  const posts = await getPostsByUsername(username)
+  const supabase = await createClient()
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser()
+  const posts = await getPostsByUsername(username, authUser?.id ?? null)
 
   return (
     <>
@@ -41,8 +46,8 @@ export default async function ProfilePage({
       <ProfileHeader user={user} />
       <ProfileTabs />
       <div>
-        {posts.map(({ post, author }) => (
-          <PostCard key={post.id} post={post} author={author} />
+        {posts.map(({ post, author, likedByMe }) => (
+          <PostCard key={post.id} post={post} author={author} likedByMe={likedByMe} />
         ))}
       </div>
     </>
