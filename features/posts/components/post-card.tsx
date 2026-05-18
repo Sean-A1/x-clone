@@ -1,11 +1,20 @@
 import { formatDistanceToNow } from "date-fns"
-import { Heart, MessageCircle, Repeat2, Share } from "lucide-react"
+import { MessageCircle, Repeat2, Share } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LikeButton } from "@/features/likes/components/like-button"
 import type { Post } from "@/features/posts/schema"
 import type { User } from "@/features/users/schema"
 
-export function PostCard({ post, author }: { post: Post; author: User }) {
+export function PostCard({
+  post,
+  author,
+  likedByMe,
+}: {
+  post: Post
+  author: User
+  likedByMe: boolean
+}) {
   return (
     <article className="hover:bg-muted/50 border-border flex gap-3 border-b px-4 py-3 transition-colors">
       <Avatar className="h-10 w-10 shrink-0">
@@ -41,15 +50,7 @@ export function PostCard({ post, author }: { post: Post; author: User }) {
             </span>
             <span>{post.reposts}</span>
           </button>
-          <button
-            type="button"
-            className="group flex items-center gap-2 transition-colors hover:text-pink-400"
-          >
-            <span className="rounded-full p-1.5 transition-colors group-hover:bg-pink-400/10">
-              <Heart className="h-[18px] w-[18px]" />
-            </span>
-            <span>{post.likes}</span>
-          </button>
+          <LikeButton postId={post.id} liked={likedByMe} count={post.likes} />
           <button
             type="button"
             className="group flex items-center gap-2 transition-colors hover:text-blue-400"

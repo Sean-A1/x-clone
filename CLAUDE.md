@@ -77,6 +77,7 @@ X (Twitter) 클론. Solo learning project.
 - `components/theme-provider.tsx` (next-themes Context provider)
 - `components/sign-in-with-google-button.tsx` (`onClick` + `window.location.origin` + 브라우저 Supabase client)
 - `features/posts/components/composer.tsx` (`useState` + `onChange`; 내부적으로 `ActiveComposer`/`GuestComposer`로 분리됐지만 같은 파일·같은 `"use client"`)
+- `features/likes/components/like-button.tsx` (`useOptimistic` + `startTransition` + `onClick`)
 
 그 외 author 작성 컴포넌트는 모두 Server. 새로 만들 때도 위 4가지 사유(훅/이벤트/브라우저 API/Context) 없으면 Server 유지.
 > shadcn `components/ui/*` (avatar, dropdown-menu 등 Radix wrapper)는 본질적으로 client지만 vendored 코드라 이 목록의 추적 대상이 아님.
@@ -97,6 +98,7 @@ X (Twitter) 클론. Solo learning project.
 - **F1.4** Supabase Auth (Google OAuth) — `proxy.ts` 세션 refresh, OAuth 콜백, login 페이지, user menu
 - **F1.5a** auth.users ↔ public.users 매핑 — shared PK FK + 자동 프로비저닝 trigger
 - **F1.5b** Composer Server Action (`createPost`) — write 통합 완료, mock→DB 전환 종료
+- **F1.6** Like 기능 — `likes` junction 테이블 + 카운트 trigger, `toggleLike` Server Action, `useOptimistic` 좋아요 버튼
 
 ### Next — Phase 2 (미정)
 Phase 1 MVP 완료. Phase 2 범위는 본인 결정 후 채움.
@@ -122,13 +124,13 @@ Feature-based modules:
     features/
       posts/    — components/, schema.ts, queries.ts, actions.ts   (mock 졸업, 진화 4단계 완주)
       users/    — components/, schema.ts, queries.ts               (write는 auth trigger가 처리 → actions.ts 없음)
+      likes/    — components/, schema.ts, actions.ts                (read는 posts/queries.ts가 likedByMe EXISTS subquery로 흡수 → 자체 queries.ts 없음)
       follow/   — 미생성
       timeline/ — 미생성
-      likes/    — 미생성
       reposts/  — 미생성
 
 - 각 feature는 다른 feature의 internal import 금지
-- Cross-feature는 public API (`queries.ts`, `actions.ts`)로만
+- Cross-feature는 public API (`queries.ts`, `actions.ts`) + export된 컴포넌트로만 (예: `like-button.tsx`를 `post-card.tsx`가 사용)
 
 Feature 진화 단계:
 1. `mock.ts`    — in-memory mock으로 UI 골격 확정
@@ -143,8 +145,8 @@ Feature 진화 단계:
 - **DevOps 고급** (Oracle Cloud / AWS 일부 마이그레이션): Phase 3
 - **ESLint `import/order` 플러그인**: 도입 X. 수동 정리 + `organizeImports`로 충분
 - **Rich text editor / contentEditable**: 도입 X. textarea + plain text가 final form
-- **Optimistic update / `useActionState` pending UI**: 도입 X. Composer는 plain form action
-- **카운터 자동 증가** (`users.postsCount` 등): 도입 X
+- **`useActionState` pending UI**: 도입 X. Composer는 plain form action. (`useOptimistic`은 F1.6 Like에서 도입 — 좋아요 즉시 반응)
+- **카운터 자동 증가**: `posts.likes`는 F1.6에서 Postgres trigger로 자동 관리. `users.postsCount` 등 나머지 카운터는 여전히 도입 X
 - **Username 충돌 dedupe**: 도입 X. email local-part 그대로 사용 (solo project라 허용)
 - **Username 직접 선택 onboarding 흐름**: 도입 X. trigger가 email local-part로 자동 생성
 
