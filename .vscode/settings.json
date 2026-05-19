@@ -22,15 +22,13 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
-  // Markdown 포매터
   "[markdown]": {
     "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   },
 
   // GitLens: 현재 라인과 코드 렌즈 비활성화 (본인 기존 설정 유지)
-  "gitlens.currentLine.enabled": false,
-  "gitlens.codeLens.enabled": false,
+  // "gitlens.currentLine.enabled": false,
+  // "gitlens.codeLens.enabled": false,
 
   // 저장 시 ESLint 자동 fix + import 정리 (Python의 source.fixAll.ruff와 동일 컨셉)
   "editor.codeActionsOnSave": {
